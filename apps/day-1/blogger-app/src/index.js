@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import App from './components/App';
 
-var Header = function () {
-  return <h1>Blogger App</h1>;
-};
-
-ReactDOM.render(<Header />, document.querySelector('#root'));
+ReactDOM.render(<App />, document.querySelector('#root'));
