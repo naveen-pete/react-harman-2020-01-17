@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { categories } from '../data/store';
+import { categories, categoryAll } from '../data/store';
 
-const Categories = () => {
+const Categories = (props) => {
+  const categoriesWithAll = [categoryAll, ...categories];
   return <div>
     <h4>Categories</h4>
     <div className="list-group">
-      {categories.map(c => <button
+      {categoriesWithAll.map(c => <button
         key={c.id}
         type="button"
         className="list-group-item list-group-item-action"
+        onClick={() => props.onCategorySelect(c)}
       >
         {c.name}
       </button>)

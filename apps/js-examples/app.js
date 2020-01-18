@@ -1,23 +1,23 @@
-// function statement syntax - ES5
-// function sum(a, b) {
-//   return a + b;
-// }
+const john = {
+  name: 'john',
+  email: 'john@gmail.com'
+};
 
-// function expression - ES5
-// const sum = function (a, b) {
-//   return a + b;
-// };
+const ram = {
+  name: 'ram',
+  email: 'ram@gmail.com'
+};
 
-// arrow function 1
-// const sum = (a, b) => {
-//   return a + b;
-// }
+function showPerson(skill1, skill2) {
+  console.log('name:', this.name, ' email:', this.email);
+  console.log('skills:', skill1, skill2);
+}
 
-// arrow function 2
-const sum = (a, b) => a + b;
+// showPerson.call(john, 'dotnet ', 'java');
+// showPerson.call(ram, 'angular ', 'react');
 
-// arrow function 2
-const square = n => n * n;
+// showPerson.apply(john);
+// showPerson.apply(ram, ['angular ', 'react']);
 
-console.log(sum(10, 20));
-console.log(square(10));
+const newShowPerson = showPerson.bind(john, 'dotnet ', 'java');
+newShowPerson();

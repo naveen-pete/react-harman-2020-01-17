@@ -1,7 +1,7 @@
 import React from 'react';
 
-const PostDetail = (props) => {
-  const post = props.post;
+const PostDetail = ({ post, onPostDelete }) => {
+  // const post = props.post;
 
   return (
     <div className="card bg-light mb-3">
@@ -23,7 +23,11 @@ const PostDetail = (props) => {
       </div>
       <div className="card-footer">
         <button className="btn btn-sm btn-outline-primary mr-1" type="button">Edit</button>
-        <button className="btn btn-sm btn-outline-danger" type="button">Delete</button>
+        <button
+          className="btn btn-sm btn-outline-danger"
+          type="button"
+          onClick={() => onPostDelete(post.id)}
+        >Delete</button>
       </div>
     </div>
   );
