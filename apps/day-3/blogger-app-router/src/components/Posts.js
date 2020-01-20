@@ -20,8 +20,14 @@ class Posts extends React.Component {
   }
 
   componentDidMount() {
-    const posts = getPosts();
-    this.setState({ posts });
+    getPosts()
+      .then(posts => {
+        this.setState({ posts });
+      })
+      .catch(error => {
+        console.log('Get posts failed.');
+        console.log('Error:', error);
+      });
   }
 
   handleCategorySelect(category) {

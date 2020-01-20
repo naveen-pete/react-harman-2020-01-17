@@ -5,9 +5,16 @@ import PostForm from './PostForm';
 
 class PostFormCreate extends Component {
   handleSubmit = post => {
-    post.id = Date.now();
-    addPost(post);
-    this.props.history.push('/posts');
+    delete post.id;
+    addPost(post)
+      .then(newPost => {
+        console.log('newPost:', newPost);
+        this.props.history.push('/posts');
+      })
+      .catch(error => {
+        console.log('Create post failed!');
+        console.log('Error:', error);
+      });
   }
 
   render() {

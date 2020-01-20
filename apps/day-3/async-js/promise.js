@@ -41,7 +41,7 @@ getUser('hari')
   .then((result) => {
     console.log('user:', result);
 
-    return getPosts(10);
+    return getPosts(result.id);
   })
   .then((posts) => {
     console.log('posts for user:', posts);

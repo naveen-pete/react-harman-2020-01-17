@@ -1,11 +1,6 @@
 import { posts } from '../data/store';
 
-const apiUrl = 'http://localhost:3001/posts';
-
-export const getPosts = () => {
-  return fetch(apiUrl)
-    .then(response => response.json());
-};
+export const getPosts = () => posts;
 
 export const getPost = id => {
   const post = posts.find(p => p.id === id);
@@ -13,15 +8,12 @@ export const getPost = id => {
 };
 
 export const addPost = post => {
-  return fetch(apiUrl, {
-    method: 'POST',
-    body: JSON.stringify(post),
-    headers: {
-      'Content-Type': 'application/json',
-      'my-auth-token': 'abc123'
-    }
-  })
-    .then(response => response.json());
+  const newPost = {
+    ...post,
+    id: Date.now()
+  };
+
+  posts.push(newPost);
 };
 
 export const updatePost = post => {

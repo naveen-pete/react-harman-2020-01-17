@@ -31,7 +31,14 @@ class PostForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.onSubmit(this.state);
+    const { id, title, body, author, category } = this.state;
+    this.props.onSubmit({
+      id,
+      title,
+      body,
+      author,
+      category
+    });
 
     this.setState({
       id: 0,
