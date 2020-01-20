@@ -2,21 +2,26 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Categories from './Categories';
-import PostDetail from './PostDetail';
-import PostForm from './PostForm';
-import { posts, categoryAll } from '../data/store';
+// import { posts, categoryAll } from '../data/store';
+import { categoryAll } from '../constants';
+import { getPosts, deletePost } from '../api/posts';
 
 class Posts extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      posts: posts,
+      posts: [],
       selectedCategory: categoryAll
     };
 
     this.handleCategorySelect = this.handleCategorySelect.bind(this);
-    this.handlePostDelete = this.handlePostDelete.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+  }
+
+  componentDidMount() {
+    const posts = getPosts();
+    this.setState({ posts });
   }
 
   handleCategorySelect(category) {
@@ -31,7 +36,9 @@ class Posts extends React.Component {
     });
   }
 
-  handlePostDelete(postId) {
+  handleDeleteClick(postId) {
+    deletePost(postId);
+
     this.setState((prevState) => {
       const filteredPosts = prevState.posts.filter(p => p.id !== postId);
       return {
@@ -59,7 +66,7 @@ class Posts extends React.Component {
             <div className="btn-group btn-group-sm">
               <Link className="btn btn-info" to={`/posts/${p.id}`}>View </Link>
               <Link className="btn btn-warning" to={`/posts/${p.id}/edit`}>Edit</Link>
-              <a className="btn btn-danger" href="#">Delete</a>
+              <button className="btn btn-danger" onClick={() => this.handleDeleteClick(p.id)}>Delete</button>
             </div>
           </td>
         </tr>
@@ -70,6 +77,10 @@ class Posts extends React.Component {
 
   render() {
     const { selectedCategory, posts } = this.state;
+
+    if (posts.length <= 0) {
+      return <div>Loading...</div>;
+    }
 
     let filteredPosts = [];
     if (selectedCategory.id !== 'all') {
@@ -85,7 +96,11 @@ class Posts extends React.Component {
       </div>
       <div className="col">
         <h4>Posts</h4>
-        {this.renderPosts(filteredPosts)}
+        {filteredPosts.length > 0
+          ? this.renderPosts(filteredPosts)
+          : <div className="alert alert-info">No posts.</div>
+        }
+
       </div>
     </div>;
   }

@@ -4,10 +4,23 @@ import { categories } from '../data/store';
 
 class PostForm extends Component {
   state = {
+    id: 0,
     title: '',
     body: '',
     author: '',
-    category: ''
+    category: '',
+    initialized: false
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.operation === 'Update' && props.post && !state.initialized) {
+      return {
+        ...props.post,
+        initialized: true
+      };
+    }
+
+    return null;
   }
 
   handleChange = ({ target }) => {
@@ -18,14 +31,10 @@ class PostForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const newPost = {
-      ...this.state,
-      id: Date.now()
-    };
-
-    this.props.onPostCreate(newPost);
+    this.props.onSubmit(this.state);
 
     this.setState({
+      id: 0,
       title: '',
       body: '',
       author: '',
@@ -34,10 +43,11 @@ class PostForm extends Component {
   }
 
   render() {
+    const { operation } = this.props;
     const { title, body, author, category } = this.state;
 
     return <div>
-      <h4 className="mr-3">Post Form</h4>
+      <h4 className="mr-3">{operation} Post</h4>
 
       <div className="card bg-light">
         <div className="card-body">
